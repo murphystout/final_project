@@ -1,0 +1,18 @@
+<html>
+<head><title>Book Catalog</title></head>
+<body>
+{% for message in get_flashed_messages() %}
+<div class=flash>{{ message }}</div>
+{% endfor %}
+<table>
+<tr><td colspan="5" style="text-align:center"><strong>Book Catalog Listing</strong></td></tr>
+<tr><td>ISBN #</td><td>Title</td><td>Author(s)</td><td># Pages</td><td>Rating</td><td>Delete</td></tr>
+{% for book in books %}
+<tr><td>{% if book.thumbnail %}<img src="{{book.thumbnail}}">{% endif %}</td><td>{{book.isbn}}</td><td>{{book.title}}</td><td>{{book.authors}}</td><td>{{book.pagecount}}</td><td>{{book.averagerating}}</td><td><a href="/delete?id={{book.id}}">Delete</a></td></tr>
+{% endfor %}
+</table>
+<br>
+<a href="/">Home</a> | <a href="/lookup">Look Up and Add Books</a><br> 
+
+</body>
+</html>
