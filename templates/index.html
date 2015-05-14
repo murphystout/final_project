@@ -1,9 +1,13 @@
 <html>
 <head><title>Book Catalog</title></head>
 <body>
-{% for message in get_flashed_messages() %}
-<div class=flash>{{ message }}</div>
-{% endfor %}
+{% extends "header.html" %}
+{% block content %}
+{% if not session.logged_in %}
+<H1>Book Catalog</H1>
+<p>Welcome to the Book Catalog application.  This application allows you to lookup and save your favorite books.</p>
+<p>You will need to login to use this application: <a href="/login">Login Now</a>
+{% else %}
 <table>
 <tr><td colspan="5" style="text-align:center"><strong>Book Catalog Listing</strong></td></tr>
 <tr><td>ISBN #</td><td>Title</td><td>Author(s)</td><td># Pages</td><td>Rating</td><td>Delete</td></tr>
@@ -12,7 +16,7 @@
 {% endfor %}
 </table>
 <br>
-<a href="/">Home</a> | <a href="/lookup">Look Up and Add Books</a><br> 
-
+{% endif %}
 </body>
 </html>
+{% endblock %}

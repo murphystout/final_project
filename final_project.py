@@ -80,12 +80,33 @@ def deletebook():
 	flash("Book Deleted with ID Number:"+id)
 	return redirect("/")
 	
+
+@app.route('/login', methods = ['GET', 'POST'])
+def login():
+	error = None
+	if request.method == 'POST':
+		if request.form['username'] != 'username':
+			error = "Invalid Username/Password"
+		elif request.form['password'] != 'password':
+			error = "Invalid Username/Password"
+		else:
+			session['logged_in'] = True
+			flash("You were logged in successfully")
+			return redirect("/")
+	return render_template('login.html', error = error)
+@app.route('/logout')
+def logout():
+	session.pop('logged_in', None)
+	flash("You were successfully logged out")
+	return redirect("/")
+
 @app.route('/')
 def homepage():
 	querystring = "SELECT ID, ISBN,TITLE,AUTHORS,PAGECOUNT,AVERAGERATING, THUMBNAIL FROM bookcatalog"
 	cur = g.db.execute(querystring)
 	books = [dict(id = row[0], isbn = row[1], title = row[2], authors = row[3], pagecount= row[4], averagerating = row[5], thumbnail = row[6]) for row in cur.fetchall()]
 	return render_template('index.html',books = books)	
+	
 if __name__ == "__main__":
     app.run(debug=DEBUG)
 	
